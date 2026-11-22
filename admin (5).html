@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>NightFix – Admin</title>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.76.1/dist/umd/supabase.min.js"></script>
 <style>
 body{font-family:Arial,sans-serif;background:#eef3fb;color:#0f172a;margin:0;padding:16px}
 input,select,button{padding:10px;border-radius:8px;border:1px solid #c3d0ea;font-size:15px}
@@ -30,7 +30,7 @@ th{background:#1d4ed8;color:#fff}td,th{padding:8px;border-bottom:1px solid #d5de
  <div class="grid" id="grid"></div></div>
 </div>
 <script>
-const SUPABASE_URL="https://uuqrprzkinlkxovzfjsm.supabase.co", SUPABASE_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV1cXJwcnpraW5sa3hvdnpmanNtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTUzMDA0MTMsImV4cCI6MjExMDg3NjQxM30.fILi0KaRknHN7EQnV2Ucool6rvgBfd6d5v-pO899Als";   // mêmes valeurs que index.html
+const SUPABASE_URL="https://ifgajqynclqruungignf.supabase.co", SUPABASE_KEY="sb_publishable_WFCsqUHp4gGwKXBG3PutZg_YjJ2r0dD";   // mêmes valeurs que index.html
 const $=s=>document.querySelector(s);
 if(!SUPABASE_URL||!SUPABASE_KEY){$("#err").textContent="⚠️ SUPABASE_URL / SUPABASE_KEY manquants dans admin.html";throw new Error("missing keys")}
 if(!window.supabase){$("#err").textContent="⚠️ Bibliothèque Supabase non chargée (vérifiez la connexion)";throw new Error("lib")}
