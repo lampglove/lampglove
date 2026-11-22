@@ -106,8 +106,8 @@ const CONFIG = {
   images: ["img/1.jpg","img/2.jpg"],
   price: 3900, oldPrice: 5900, currency: {ar:"دج", fr:"DA"},
   whatsapp: "213XXXXXXXXX",          // votre numéro (sans +) — رقمك بدون +
-  supabaseUrl: "https://uuqrprzkinlkxovzfjsm.supabase.co",                    // ex: https://xxxx.supabase.co
-  supabaseKey: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV1cXJwcnpraW5sa3hvdnpmanNtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTUzMDA0MTMsImV4cCI6MjExMDg3NjQxM30.fILi0KaRknHN7EQnV2Ucool6rvgBfd6d5v-pO899Als",                    // clé "anon public" — مفتاح anon public
+  supabaseUrl: "https://ifgajqynclqruungignf.supabase.co",                    // ex: https://xxxx.supabase.co
+  supabaseKey: "sb_publishable_WFCsqUHp4gGwKXBG3PutZg_YjJ2r0dD",                    // clé "anon public" — مفتاح anon public
   delivery: [                         // Types & prix de livraison — أنواع وأسعار التوصيل
     {ar:"توصيل للمنزل", fr:"Livraison à domicile", price:600},
     {ar:"استلام من المكتب", fr:"Point relais (Stop desk)", price:400}
@@ -162,7 +162,7 @@ function gallery(list){
 }
 gallery(CONFIG.images);
 if(CONFIG.supabaseUrl)fetch(CONFIG.supabaseUrl+"/rest/v1/pack_images?select=url&order=position.asc,id.asc",
-  {headers:{apikey:CONFIG.supabaseKey,Authorization:"Bearer "+CONFIG.supabaseKey}})
+  {headers:{apikey:CONFIG.supabaseKey}})
   .then(r=>r.ok?r.json():[]).then(rows=>{if(rows.length)gallery(rows.map(x=>x.url))}).catch(()=>{});
 // Commande
 $("#form").onsubmit=async e=>{
@@ -175,7 +175,7 @@ $("#form").onsubmit=async e=>{
   try{
     if(CONFIG.supabaseUrl){
       const r=await fetch(CONFIG.supabaseUrl+"/rest/v1/orders_pack",{method:"POST",
-        headers:{apikey:CONFIG.supabaseKey,Authorization:"Bearer "+CONFIG.supabaseKey,"Content-Type":"application/json",Prefer:"return=minimal"},
+        headers:{apikey:CONFIG.supabaseKey,...(CONFIG.supabaseKey.startsWith("eyJ")?{Authorization:"Bearer "+CONFIG.supabaseKey}:{}),"Content-Type":"application/json",Prefer:"return=minimal"},
         body:JSON.stringify(d)});
       if(!r.ok)throw new Error(await r.text());
     }
