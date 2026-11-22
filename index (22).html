@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NightFix – قفازات LED + 4 أنابيب</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#eef3fb;--card:#ffffff;--txt:#0f172a;--mut:#5b6784;--acc:#1d4ed8;--acc2:#1f9d6b}
+*{box-sizing:border-box;margin:0}
+body::before{content:"";display:block;height:9px;background:repeating-linear-gradient(45deg,#0f172a 0 14px,#60a5fa 14px 28px)}
+body{font-family:Cairo,system-ui,sans-serif;background:var(--bg);color:var(--txt);line-height:1.7}
+.wrap{max-width:960px;margin:auto;padding:0 18px}
+.top{display:flex;justify-content:space-between;align-items:center;padding:14px 0}
+.logo{font-weight:900;font-size:22px;color:#0f172a;letter-spacing:.5px}.logo b{color:var(--acc)}
+.lang{background:none;border:1px solid var(--mut);color:var(--txt);padding:4px 14px;border-radius:20px;cursor:pointer;font-family:inherit}
+.hero{display:grid;gap:28px;padding:20px 0 40px}
+@media(min-width:800px){.hero{grid-template-columns:1fr 1fr;align-items:center}}
+h1{font-size:clamp(28px,6vw,46px);line-height:1.25;font-weight:900}
+h1 span{color:var(--acc)}
+.sub{color:var(--mut);margin:12px 0}
+.badge{display:inline-block;background:var(--acc2);color:#fff;font-weight:700;padding:2px 12px;border-radius:20px;font-size:14px}
+.price{font-size:34px;font-weight:900;color:var(--acc);margin:10px 0}
+.price s{font-size:20px;color:var(--mut);margin-inline-start:10px}
+.btn{display:inline-block;background:var(--acc);color:#fff;font-weight:900;font-size:18px;border:0;padding:14px 32px;border-radius:12px;cursor:pointer;text-decoration:none;font-family:inherit;box-shadow:0 0 24px #1d4ed855;animation:pulse 2s infinite}
+@keyframes pulse{50%{box-shadow:0 0 38px #1d4ed8aa}}
+.gallery .main{aspect-ratio:1;background:var(--card);border-radius:20px;overflow:hidden;display:grid;place-items:center;border:1px solid #d5def0}
+.gallery .main img{width:100%;height:100%;object-fit:cover}
+.thumbs{display:flex;gap:10px;margin-top:10px;overflow-x:auto}
+.thumbs img{width:68px;height:68px;object-fit:cover;border-radius:10px;border:2px solid transparent;cursor:pointer;background:var(--card)}
+.thumbs img.on{border-color:var(--acc)}
+h2{text-align:center;font-size:28px;margin:30px 0 16px}
+.feats{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+.f{background:var(--card);border:1px solid #d5def0;border-radius:16px;padding:20px}
+.f i{font-style:normal;font-size:34px}
+.f h3{color:var(--acc);margin:6px 0}
+.f p{color:var(--mut);font-size:15px}
+.desc{background:var(--card);border-radius:16px;padding:22px;color:var(--mut);white-space:pre-line}
+.trust{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:24px 0}
+.trust div{background:var(--card);padding:8px 16px;border-radius:30px;font-size:14px}
+form{background:var(--card);border:2px solid var(--acc);border-radius:20px;padding:24px;max-width:520px;margin:auto}
+label{display:block;font-size:14px;margin:12px 0 4px;color:var(--mut)}
+input,select{width:100%;padding:13px;border-radius:10px;border:1px solid #c3d0ea;background:#fff;color:var(--txt);font-family:inherit;font-size:16px}
+form .btn{width:100%;margin-top:18px;animation:none}
+.sum{margin-top:14px;border-top:1px dashed #c3d0ea;padding-top:10px}.sum div{display:flex;justify-content:space-between;padding:3px 0}.sum .gt{font-weight:900;font-size:19px;color:var(--acc);border-top:1px solid #d5def0;margin-top:4px;padding-top:6px}
+.ok{display:none;text-align:center;padding:30px;font-size:20px;color:var(--acc2)}
+footer{text-align:center;color:var(--mut);font-size:13px;padding:30px 0 90px}
+.sticky{position:fixed;inset:auto 0 0 0;background:#eef3fbee;padding:10px;text-align:center;z-index:9;border-top:1px solid #d5def0}
+.sticky .btn{padding:10px 26px;font-size:16px}
+</style>
+</head>
+<body>
+<div class="wrap">
+ <div class="top"><div class="logo">🧤 Night<b>Fix</b></div><button class="lang" id="lang">Français</button></div>
+
+ <section class="hero">
+  <div>
+   <span class="badge" data-t="badge"></span>
+   <h1 data-t="title"></h1>
+   <p class="sub" data-t="sub"></p>
+   <div class="price"><span id="price"></span><s id="old"></s></div>
+   <a href="#order" class="btn" data-t="cta"></a>
+  </div>
+  <div class="gallery">
+   <div class="main"><img id="big" alt=""></div>
+   <div class="thumbs" id="thumbs"></div>
+  </div>
+ </section>
+
+ <h2 data-t="whyH"></h2>
+ <section class="feats">
+  <div class="f"><i>🔦</i><h3 data-t="f1h"></h3><p data-t="f1p"></p></div>
+  <div class="f"><i>🛢️</i><h3 data-t="f2h"></h3><p data-t="f2p"></p></div>
+  <div class="f"><i>📦</i><h3 data-t="f3h"></h3><p data-t="f3p"></p></div>
+ </section>
+
+ <h2 data-t="descH"></h2>
+ <div class="desc" id="desc"></div>
+
+ <div class="trust">
+  <div data-t="t1"></div><div data-t="t2"></div><div data-t="t3"></div><div data-t="t4"></div>
+ </div>
+
+ <h2 id="order" data-t="orderH"></h2>
+ <form id="form">
+  <label data-t="lName"></label><input name="name" required>
+  <label data-t="lPhone"></label><input name="phone" type="tel" required pattern="[0-9+ ]{9,15}">
+  <label data-t="lWilaya"></label><select name="wilaya" id="wil"></select>
+  <label data-t="lAddr"></label><input name="address" required>
+  <label data-t="lDelivery"></label><select name="delivery" id="dlv"></select>
+  <label data-t="lQty"></label>
+  <select name="qty" id="qty"><option>1</option><option>2</option><option>3</option></select>
+  <div class="sum"><div><span data-t="pProd"></span><b id="pp"></b></div><div><span data-t="pShip"></span><b id="sh"></b></div><div class="gt"><span data-t="total"></span><span id="tot"></span></div></div>
+  <button class="btn" data-t="submit"></button>
+ </form>
+ <div class="ok" id="ok"></div>
+ <footer data-t="foot" style="padding-bottom:8px"></footer>
+ <div style="text-align:center;padding-bottom:90px"><a href="admin.html" style="color:var(--mut);font-size:12px;opacity:.6;text-decoration:none">Admin</a></div>
+</div>
+<div class="sticky"><a href="#order" class="btn" data-t="cta"></a></div>
+
+<script>
+/* ================= ✏️ MODIFIEZ ICI / عدّل هنا ================= */
+const CONFIG = {
+  // Vos photos : mettez les chemins/URLs (ex: "img/1.jpg") — ضع روابط أو مسارات صورك
+  images: ["img/1.jpg","img/2.jpg"],
+  price: 3900, oldPrice: 5900, currency: {ar:"دج", fr:"DA"},
+  whatsapp: "213XXXXXXXXX",          // votre numéro (sans +) — رقمك بدون +
+  supabaseUrl: "https://uuqrprzkinlkxovzfjsm.supabase.co",                    // ex: https://xxxx.supabase.co
+  supabaseKey: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV1cXJwcnpraW5sa3hvdnpmanNtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTUzMDA0MTMsImV4cCI6MjExMDg3NjQxM30.fILi0KaRknHN7EQnV2Ucool6rvgBfd6d5v-pO899Als",                    // clé "anon public" — مفتاح anon public
+  delivery: [                         // Types & prix de livraison — أنواع وأسعار التوصيل
+    {ar:"توصيل للمنزل", fr:"Livraison à domicile", price:600},
+    {ar:"استلام من المكتب", fr:"Point relais (Stop desk)", price:400}
+  ],
+  webhook: "",                        // optionnel: Google Sheets / Make / Zapier URL
+  metaPixelId: ""                     // optionnel: ID du Pixel Facebook
+};
+const TXT = {
+ ar:{badge:"عرض الباك 🔥",title:"قفازات <span>LED</span> + 4 أنابيب صبّ",sub:"قفاز بدون أصابع بإضاءة LED على الإبهام والسبابة لتعمل بيدين حرّتين في الظلام، مع 4 أنابيب مرنة تسهّل صبّ زيت المحرك أو ماء المسح أو سائل التبريد بدون أي تسرّب.",cta:"اطلب الآن – الدفع عند الاستلام",
+  whyH:"لماذا تحتاجه في سيارتك؟",f1h:"إضاءة عند أطراف الأصابع",f1p:"مصباحان LED على الإبهام والسبابة يضيئان مكان العمل مباشرة، دون الحاجة لحمل مصباح يدوي.",f2h:"أنابيب مرنة بدون تسرّب",f2p:"رأس أزرق يُركَّب على فوهة القارورة وأنبوب مرن يتحرك في كل الاتجاهات لصبّ السوائل بدقة ودون فوضى.",f3h:"باك كامل بسعر واحد",f3p:"قفازات + 4 أنابيب في طلب واحد: كل ما تحتاجه لصيانة سيارتك بنفسك.",
+  descH:"وصف المنتج",desc:"اكتب هنا وصف المنتج بالعربية…\n• المحتوى: قفازات LED + 4 أنابيب صبّ\n• طريقة الاستعمال\n• المقاس والبطاريات",
+  t1:"🚚 التوصيل لـ 58 ولاية",t2:"💵 الدفع عند الاستلام",t3:"🛡️ ضمان الجودة",t4:"↩️ إمكانية الاستبدال",
+  orderH:"اطلب الآن",lName:"الاسم الكامل",lPhone:"رقم الهاتف",lWilaya:"الولاية",lAddr:"العنوان",lDelivery:"نوع التوصيل",lQty:"الكمية",pProd:"سعر المنتج:",pShip:"سعر التوصيل:",total:"المجموع الكلي:",submit:"تأكيد الطلب ✅",
+  ok:"شكراً لك! سنتصل بك قريباً لتأكيد طلبك 📞",foot:"© جميع الحقوق محفوظة"},
+ fr:{badge:"Offre Pack 🔥",title:"Gants <span>LED</span> + 4 tubes verseurs",sub:"Gant sans doigts avec lampes LED sur le pouce et l'index pour travailler les mains libres dans le noir, plus 4 tubes flexibles pour verser huile moteur, lave-glace ou liquide de refroidissement sans en mettre partout.",cta:"Commander – Paiement à la livraison",
+  whyH:"Pourquoi en avez-vous besoin ?",f1h:"Lumière au bout des doigts",f1p:"Deux LED sur le pouce et l'index éclairent exactement là où vous travaillez, sans lampe de poche à tenir.",f2h:"Tubes flexibles sans fuite",f2p:"Une tête bleue qui se fixe sur le goulot et un tuyau flexible qui s'oriente partout pour verser avec précision.",f3h:"Pack complet, un seul prix",f3p:"Gants + 4 tubes en une seule commande : tout pour entretenir votre voiture vous-même.",
+  descH:"Description du produit",desc:"Écrivez ici la description du produit en français…\n• Contenu : gants LED + 4 tubes verseurs\n• Mode d'emploi\n• Taille et piles",
+  t1:"🚚 Livraison 58 wilayas",t2:"💵 Paiement à la livraison",t3:"🛡️ Qualité garantie",t4:"↩️ Échange possible",
+  orderH:"Commander maintenant",lName:"Nom complet",lPhone:"Téléphone",lWilaya:"Wilaya",lAddr:"Adresse",lDelivery:"Type de livraison",lQty:"Quantité",pProd:"Prix du produit :",pShip:"Frais de livraison :",total:"Total à payer :",submit:"Confirmer la commande ✅",
+  ok:"Merci ! Nous vous appellerons bientôt pour confirmer 📞",foot:"© Tous droits réservés"}
+};
+let L="ar";
+const $=s=>document.querySelector(s);
+const WIL=[["Adrar",1300,900],["Chlef",600,450],["Laghouat",950,600],["Oum El Bouaghi",800,450],["Batna",800,450],["Bejaia",800,450],["Biskra",950,600],["Bechar",1100,750],["Blida",700,450],["Bouira",750,450],["Tamanrasset",1550,1100],["Tebessa",900,500],["Tlemcen",850,500],["Tiaret",750,450],["Tizi Ouzou",750,450],["Alger",600,400],["Djelfa",900,600],["Jijel",800,450],["Sétif",800,450],["Saida",800,500],["Skikda",800,450],["Sidi Bel Abbès",750,450],["Annaba",800,450],["Guelma",800,450],["Constantine",800,450],["Medea",700,450],["Mostaganem",750,450],["M'Sila",850,500],["Mascara",700,450],["Ouargla",950,600],["Oran",700,450],["El Bayadh",1000,750],["Illizi",1550,1150],["Bordj Bou Arreridj",800,450],["Boumerdes",750,450],["El Tarf",850,500],["Tindouf",1300,800],["Tissemsilt",700,450],["El Oued",1000,600],["Khenchela",800,500],["Souk Ahras",800,500],["Tipaza",700,450],["Mila",800,450],["Ain Defla",450,300],["Naama",1000,600],["Ain Temouchent",750,450],["Ghardaia",1000,600],["Relizane",750,450],["Timimoun",1350,900],["Bordj Badji Mokhtar",0,0],["Ouled Djellal",900,550],["Béni Abbès",1100,900],["In Salah",1550,1100],["In Guezzam",0,0],["Touggourt",950,600],["Djanet",2200,1600],["M'Ghair",950,600],["Meniaa",950,600]]; // [wilaya, domicile, stop desk] DA — 0 = non desservie
+$("#wil").innerHTML=WIL.map((w,i)=>`<option value="${w[0]}">${String(i+1).padStart(2,"0")} - ${w[0]}</option>`).join("");
+$("#wil").value="Alger";
+const dp=()=>WIL[$("#wil").selectedIndex][$("#dlv").selectedIndex+1];
+function render(){
+  const t=TXT[L],c=CONFIG.currency[L];
+  document.documentElement.lang=L;document.documentElement.dir=L==="ar"?"rtl":"ltr";
+  document.querySelectorAll("[data-t]").forEach(e=>{const v=t[e.dataset.t];if(v!==undefined)e.innerHTML=v});
+  $("#desc").textContent=t.desc;$("#ok").textContent=t.ok;
+  $("#price").textContent=CONFIG.price+" "+c;$("#old").textContent=CONFIG.oldPrice+" "+c;
+  $("#lang").textContent=L==="ar"?"Français":"العربية";
+  const dl=$("#dlv"),k=dl.selectedIndex<0?0:dl.selectedIndex;
+  const w=WIL[$("#wil").selectedIndex];
+  dl.innerHTML=CONFIG.delivery.map((o,i)=>`<option>${o[L]} — ${w[i+1]?w[i+1]+" "+c:(L==="ar"?"غير متوفر":"Indisponible")}</option>`).join("");dl.selectedIndex=k;
+  total();
+}
+function calc(){return CONFIG.price*$("#qty").value+dp()}
+function total(){const c=" "+CONFIG.currency[L];$("#pp").textContent=CONFIG.price*$("#qty").value+c;$("#sh").textContent=dp()?dp()+c:"—";$("#tot").textContent=calc()+c}
+$("#dlv").onchange=total;$("#wil").onchange=render;
+$("#qty").onchange=total;
+$("#lang").onclick=()=>{L=L==="ar"?"fr":"ar";render()};
+// Galerie
+const big=$("#big"),th=$("#thumbs");
+function gallery(list){
+  th.innerHTML="";
+  list.forEach((src,i)=>{const im=new Image();im.src=src;im.alt="";if(!i)im.className="on";
+    im.onclick=()=>{big.src=src;[...th.children].forEach(x=>x.classList.remove("on"));im.classList.add("on")};th.appendChild(im)});
+  big.src=list[0];
+}
+gallery(CONFIG.images);
+if(CONFIG.supabaseUrl)fetch(CONFIG.supabaseUrl+"/rest/v1/pack_images?select=url&order=position.asc,id.asc",
+  {headers:{apikey:CONFIG.supabaseKey,Authorization:"Bearer "+CONFIG.supabaseKey}})
+  .then(r=>r.ok?r.json():[]).then(rows=>{if(rows.length)gallery(rows.map(x=>x.url))}).catch(()=>{});
+// Commande
+$("#form").onsubmit=async e=>{
+  e.preventDefault();
+  const f=Object.fromEntries(new FormData(e.target)),o=CONFIG.delivery[$("#dlv").selectedIndex];
+  if(!dp()){alert(L==="ar"?"هذا النوع من التوصيل غير متوفر لولايتك":"Ce type de livraison n'est pas disponible pour votre wilaya.");return}
+  const d={name:f.name,phone:f.phone,wilaya:f.wilaya,address:f.address,qty:+f.qty,
+           delivery:o.fr,delivery_price:dp(),total:calc()};
+  const btn=e.target.querySelector("button");btn.disabled=true;
+  try{
+    if(CONFIG.supabaseUrl){
+      const r=await fetch(CONFIG.supabaseUrl+"/rest/v1/orders_pack",{method:"POST",
+        headers:{apikey:CONFIG.supabaseKey,Authorization:"Bearer "+CONFIG.supabaseKey,"Content-Type":"application/json",Prefer:"return=minimal"},
+        body:JSON.stringify(d)});
+      if(!r.ok)throw new Error(await r.text());
+    }
+  }catch(err){btn.disabled=false;alert(L==="ar"?"حدث خطأ، حاول مرة أخرى":"Une erreur est survenue, réessayez.");console.error(err);return}
+  if(window.fbq)fbq("track","Lead");
+  if(CONFIG.webhook)fetch(CONFIG.webhook,{method:"POST",mode:"no-cors",body:JSON.stringify(d)}).catch(()=>{});
+  if(CONFIG.whatsapp&&!CONFIG.whatsapp.includes("X")){
+    const m=`Nouvelle commande / طلب جديد\n${d.name}\n${d.phone}\n${d.wilaya} - ${d.address}\n${d.delivery}\nQty: ${d.qty}\nTotal: ${d.total}`;
+    window.open("https://wa.me/"+CONFIG.whatsapp+"?text="+encodeURIComponent(m),"_blank");
+  }
+  e.target.style.display="none";$("#ok").style.display="block";
+};
+// Pixel Facebook
+if(CONFIG.metaPixelId){!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src='https://connect.facebook.net/en_US/fbevents.js';s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script');fbq('init',CONFIG.metaPixelId);fbq('track','PageView')}
+render();
+</script>
+</body>
+</html>
