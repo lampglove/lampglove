@@ -47,6 +47,11 @@ form .btn{width:100%;margin-top:18px;animation:none}
 footer{text-align:center;color:var(--mut);font-size:13px;padding:30px 0 90px}
 .sticky{position:fixed;inset:auto 0 0 0;background:#eef3fbee;padding:10px;text-align:center;z-index:9;border-top:1px solid #d5def0}
 .sticky .btn{padding:10px 26px;font-size:16px}
+.fimg,.banner,.cgrid{display:block}.fimg:empty,.banner:empty,.cgrid:empty{display:none}
+.fimg img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:12px;margin-bottom:10px}
+.banner img{width:100%;border-radius:16px;margin:16px 0}
+.cgrid{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));margin-top:12px}
+.cgrid img{width:100%;border-radius:12px}
 </style>
 </head>
 <body>
@@ -69,18 +74,22 @@ footer{text-align:center;color:var(--mut);font-size:13px;padding:30px 0 90px}
 
  <h2 data-t="whyH"></h2>
  <section class="feats">
-  <div class="f"><i>🔦</i><h3 data-t="f1h"></h3><p data-t="f1p"></p></div>
-  <div class="f"><i>🛢️</i><h3 data-t="f2h"></h3><p data-t="f2p"></p></div>
-  <div class="f"><i>📦</i><h3 data-t="f3h"></h3><p data-t="f3p"></p></div>
+  <div class="f"><div class="fimg" id="img-feat1"></div><i>🔦</i><h3 data-t="f1h"></h3><p data-t="f1p"></p></div>
+  <div class="f"><div class="fimg" id="img-feat2"></div><i>🛢️</i><h3 data-t="f2h"></h3><p data-t="f2p"></p></div>
+  <div class="f"><div class="fimg" id="img-feat3"></div><i>📦</i><h3 data-t="f3h"></h3><p data-t="f3p"></p></div>
  </section>
+
+ <div class="banner" id="img-banner"></div>
 
  <h2 data-t="descH"></h2>
  <div class="desc" id="desc"></div>
+ <div class="cgrid" id="img-content"></div>
 
  <div class="trust">
   <div data-t="t1"></div><div data-t="t2"></div><div data-t="t3"></div><div data-t="t4"></div>
  </div>
 
+ <div class="banner" id="img-order"></div>
  <h2 id="order" data-t="orderH"></h2>
  <form id="form">
   <label data-t="lName"></label><input name="name" required>
@@ -161,9 +170,12 @@ function gallery(list){
   big.src=list[0];
 }
 gallery(CONFIG.images);
-if(CONFIG.supabaseUrl)fetch(CONFIG.supabaseUrl+"/rest/v1/pack_images?select=url&order=position.asc,id.asc",
+if(CONFIG.supabaseUrl)fetch(CONFIG.supabaseUrl+"/rest/v1/pack_images?select=url,slot&order=position.asc,id.asc",
   {headers:{apikey:CONFIG.supabaseKey}})
-  .then(r=>r.ok?r.json():[]).then(rows=>{if(rows.length)gallery(rows.map(x=>x.url))}).catch(()=>{});
+  .then(r=>r.ok?r.json():[]).then(rows=>{
+    const g=rows.filter(x=>!x.slot||x.slot==="gallery");if(g.length)gallery(g.map(x=>x.url));
+    ["feat1","feat2","feat3","banner","content","order"].forEach(k=>{const el=document.getElementById("img-"+k);
+      if(el)el.innerHTML=rows.filter(x=>x.slot===k).map(x=>`<img src="${x.url}" alt="" loading="lazy">`).join("")})}).catch(()=>{});
 // Commande
 $("#form").onsubmit=async e=>{
   e.preventDefault();
